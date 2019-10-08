@@ -53,6 +53,7 @@ public class App extends Application
                 } catch (SocketTimeoutException e) {
                     System.out.println("timeout");
                 }
+                System.out.println("");
 
                 Long time = new Date().getTime();
                 for (InetAddress mapedAddress : map.keySet()) {
