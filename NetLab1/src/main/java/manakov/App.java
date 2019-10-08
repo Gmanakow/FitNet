@@ -28,7 +28,7 @@ public class App extends Application
             }
             int port = 5544;
 
-            int timeout = 1000;
+            int timeout = 2000;
 
             DatagramSocket socket = new DatagramSocket(port);
             socket.setSoTimeout(timeout);
@@ -44,7 +44,7 @@ public class App extends Application
             Date date = new Date();
 
             while (true) {
-                if (new Date().getTime() - date.getTime() > 1000) {
+                if (new Date().getTime() - date.getTime() > 2000) {
                     socket.send(sendPacket);
                     date = new Date();
                 }
