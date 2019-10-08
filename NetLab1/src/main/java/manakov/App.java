@@ -7,6 +7,7 @@ import java.net.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 public class App extends Application
 {
@@ -17,8 +18,14 @@ public class App extends Application
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         try {
-            InetAddress address = InetAddress.getByName("255.255.255.255");
+            InetAddress address = null;
+            try {
+                address = (Inet6Address) InetAddress.getByName(getParameters().getRaw().get(0));
+            } catch (Exception e){
+                address = InetAddress.getByName(getParameters().getRaw().get(0));
+            }
             int port = 5544;
 
             int timeout = 1000;
@@ -34,14 +41,11 @@ public class App extends Application
             DatagramPacket recvPacket = new DatagramPacket(buffer, 0);
 
             socket.send(sendPacket);
-            System.out.println("send");
-
             Date date = new Date();
 
             while (true) {
                 if (new Date().getTime() - date.getTime() > 1000) {
                     socket.send(sendPacket);
-                    System.out.println("send");
                     date = new Date();
                 }
 
@@ -50,9 +54,7 @@ public class App extends Application
                     if (map.put(recvPacket.getAddress(), new Date()) == null) {
                         System.out.println(map.size());
                     }
-                } catch (SocketTimeoutException e) {
-                    System.out.println("timeout");
-                }
+                } catch (SocketTimeoutException e) {}
                 System.out.println("");
 
                 Long time = new Date().getTime();
@@ -64,8 +66,6 @@ public class App extends Application
                     }
                 }
             }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+        } catch (Exception e){}
     }
 }
