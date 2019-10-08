@@ -28,7 +28,7 @@ public class App extends Application
             }
             int port = 5544;
 
-            int timeout = 2000;
+            int timeout = 1000;
 
             DatagramSocket socket = new DatagramSocket(port);
             socket.setSoTimeout(timeout);
@@ -44,8 +44,9 @@ public class App extends Application
             Date date = new Date();
 
             while (true) {
-                if (new Date().getTime() - date.getTime() > 2000) {
+                if (new Date().getTime() - date.getTime() > 5000) {
                     socket.send(sendPacket);
+                    System.out.println("send");
                     date = new Date();
                 }
 
@@ -59,7 +60,7 @@ public class App extends Application
 
                 Long time = new Date().getTime();
                 for (InetAddress mapedAddress : map.keySet()) {
-                    if (time - map.get(mapedAddress).getTime() < 5000) {
+                    if (time - map.get(mapedAddress).getTime() < 10000) {
                         System.out.println(mapedAddress);
                     } else {
                         map.remove(mapedAddress);
